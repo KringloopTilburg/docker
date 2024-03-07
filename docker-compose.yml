@@ -1,0 +1,48 @@
+version: "3"
+services:
+  # TODO add rabbitMQ and add more network rules
+
+  api-gateway:
+    container_name: api-gateway
+    image: apigateway:test5
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      TEST_ENV_VALUE: test
+    networks:
+      - kringloop-netwerk
+
+  authentication-service:
+    container_name: authentication-service
+    image: authenticationservice:test4
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      TEST_ENV_VALUE: test
+    networks:
+      - kringloop-netwerk
+
+  frontend:
+    container_name: frontend
+    image: frontend013:test1
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      TEST_ENV_VALUE: test
+    networks:
+      - kringloop-netwerk
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+networks:
+  kringloop-netwerk:
+
+volumes:
+  kringloop-data:
